@@ -1,7 +1,5 @@
 package ir.sharif.aichallenge.server.logic.model.ant;
 
-import ir.sharif.aichallenge.server.logic.model.cell.ResourceType;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

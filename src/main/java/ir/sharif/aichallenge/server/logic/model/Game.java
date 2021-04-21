@@ -67,7 +67,6 @@ public class Game {
         removeDeadAntsNewMessages(messages);
         handleChatMessages(messages);
         handleAntsMove(messages);
-        map.getAllCells().forEach(Cell::manageResources);
         /*
          * if (isFinished()) { Colony winnerColony = gameJudge.getWinner();
          * this.graphicLogDTO.game_config.winner = winnerColony.getId();
@@ -105,7 +104,6 @@ public class Game {
 
         turnLog = addMoreToLog(turnLog, 0);
         turnLog = addMoreToLog(turnLog, 1);
-        turnLog = addResourceLog(turnLog);
 
         List<ChatElementDTO> trivial_chat_box_0 = new ArrayList<>();
         if (getColony(0).getAllMessagesThisTurn() != null)
@@ -121,22 +119,6 @@ public class Game {
         getColony(1).setAllMessagesThisTurn(new ArrayList<>());
 
         graphicLogDTO.turns.add(turnLog);
-    }
-
-    private TurnDTO addResourceLog(TurnDTO log) {
-        log.team0_current_resource0 = getColony(0).getThisTurnBread();
-        log.team0_current_resource1 = getColony(0).getThisTurnGrass();
-        log.team1_current_resource0 = getColony(1).getThisTurnBread();
-        log.team1_current_resource1 = getColony(1).getThisTurnGrass();
-        log.team0_total_resource0 = getColony(0).getGainedBread();
-        log.team0_total_resource1 = getColony(0).getGainedGrass();
-        log.team1_total_resource0 = getColony(1).getGainedBread();
-        log.team1_total_resource1 = getColony(1).getGainedGrass();
-        getColony(0).setThisTurnBread(0);
-        getColony(0).setThisTurnGrass(0);
-        getColony(1).setThisTurnBread(0);
-        getColony(1).setThisTurnGrass(0);
-        return log;
     }
 
     private TurnDTO addMoreToLog(TurnDTO log, int colonyID) {

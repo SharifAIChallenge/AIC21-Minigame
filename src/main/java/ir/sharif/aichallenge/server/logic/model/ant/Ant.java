@@ -1,7 +1,6 @@
 package ir.sharif.aichallenge.server.logic.model.ant;
 
 import ir.sharif.aichallenge.server.logic.config.ConstConfigs;
-import ir.sharif.aichallenge.server.logic.model.cell.ResourceType;
 
 public class Ant {
     private int id;

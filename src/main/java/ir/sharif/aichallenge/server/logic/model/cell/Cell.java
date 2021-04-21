@@ -14,25 +14,13 @@ public class Cell {
     private int xPosition;
     private int yPosition;
     public CellType cellType;
-    private ResourceType resourceType;
-    private int resourceAmount;
     private List<Ant> ants;
 
-    public Cell(int xPosition, int yPosition, CellType cellType, ResourceType resourceType, int resourceAmount) {
+    public Cell(int xPosition, int yPosition, CellType cellType) {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.cellType = cellType;
-        this.resourceType = resourceType;
-        this.resourceAmount = resourceAmount;
         ants = new ArrayList<>();
-    }
-
-    public void setResourceType(ResourceType resourceType) {
-        this.resourceType = resourceType;
-    }
-
-    public void setResourceAmount(int resourceAmount) {
-        this.resourceAmount = resourceAmount;
     }
 
     public List<Ant> getAnts() {
@@ -59,61 +47,11 @@ public class Cell {
         return cellType;
     }
 
-    public ResourceType getResourceType() {
-        return resourceType;
-    }
-
-    public int getResourceAmount() {
-        if (resourceType == ResourceType.NONE)
-            return 0;
-        return resourceAmount;
-    }
-
-    public void increaseResource(int amount) {
-        resourceAmount += amount;
-    }
-
-    private void decreaseResource(int amount) {
-        resourceAmount -= amount;
-        if (resourceAmount == 0)
-            resourceType = ResourceType.NONE;
-        if (resourceAmount < 0)
-            throw new RuntimeException("negative resource type !!!");
-    }
-
     public boolean isBase() {
         return cellType == CellType.BASE;
     }
 
     public List<Ant> getWorkerAnts() {
         return ants.stream().filter(x -> x.getAntType() == AntType.WORKER).collect(Collectors.toList());
-    }
-
-    public void manageResources() {
-        if (cellType == CellType.WALL || resourceType == ResourceType.NONE)
-            return;
-        List<Ant> freeWorkerAnts = getWorkerAnts().stream()
-                .filter(x -> x.getCarryingResourceType() == ResourceType.NONE ||
-                        (x.getCarryingResourceType() == this.getResourceType() &&
-                                x.getCarryingResourceAmount() < ConstConfigs.WORKER_MAX_CARRYING_RESOURCE_AMOUNT))
-                .collect(Collectors.toList());
-
-        Collections.shuffle(freeWorkerAnts);
-        for (Ant ant : freeWorkerAnts) {
-            if (this.getResourceAmount() <= 0){
-                break;
-            }
-
-            int wantedAmount = ConstConfigs.WORKER_MAX_CARRYING_RESOURCE_AMOUNT - ant.getCarryingResourceAmount();
-            if (wantedAmount > this.getResourceAmount()) {
-                ant.setCarryingResourceAmount(ant.getCarryingResourceAmount() + this.getResourceAmount());
-                ant.setCarryingResourceType(this.getResourceType());
-                this.decreaseResource(this.getResourceAmount());
-            } else {
-                ant.setCarryingResourceAmount(ant.getCarryingResourceAmount() + wantedAmount);
-                ant.setCarryingResourceType(this.getResourceType());
-                this.decreaseResource(wantedAmount);
-            }
-        }
     }
 }

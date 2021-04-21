@@ -5,7 +5,6 @@ import ir.sharif.aichallenge.server.logic.config.ConstConfigs;
 import ir.sharif.aichallenge.server.logic.model.cell.BaseCell;
 import ir.sharif.aichallenge.server.logic.model.cell.Cell;
 import ir.sharif.aichallenge.server.logic.model.cell.CellType;
-import ir.sharif.aichallenge.server.logic.model.cell.ResourceType;
 import ir.sharif.aichallenge.server.logic.model.map.ExternalMap;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

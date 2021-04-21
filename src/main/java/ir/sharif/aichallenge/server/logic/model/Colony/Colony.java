@@ -1,13 +1,11 @@
 package ir.sharif.aichallenge.server.logic.model.Colony;
 
-import ir.sharif.aichallenge.server.logic.config.ConstConfigs;
 import ir.sharif.aichallenge.server.logic.handlers.exceptions.GameActionException;
 import ir.sharif.aichallenge.server.logic.handlers.exceptions.InvalidAntForColonyException;
 import ir.sharif.aichallenge.server.logic.model.ant.Ant;
 import ir.sharif.aichallenge.server.logic.model.ant.AntType;
 import ir.sharif.aichallenge.server.logic.model.cell.BaseCell;
 import ir.sharif.aichallenge.server.logic.model.cell.Cell;
-import ir.sharif.aichallenge.server.logic.model.cell.ResourceType;
 import ir.sharif.aichallenge.server.logic.model.chatbox.ChatBox;
 import ir.sharif.aichallenge.server.logic.model.chatbox.ChatMessage;
 
@@ -19,10 +17,6 @@ public class Colony {
 
     private int id;
     private int baseAttackerId;
-    private int gainedBread = 0;
-    private int gainedGrass = 0;
-    private int thisTurnBread = 0;
-    private int thisTurnGrass = 0;
     private Cell base;
     private int baseHealth;
     private HashMap<Integer, Ant> ants;
@@ -33,8 +27,8 @@ public class Colony {
     private int allSoldierAntsGeneratedCount;
     private List<ChatMessage> allMessagesThisTurn;
 
-    public Colony(int id,int baseAttackerId, BaseCell base, int baseHealth) {
-        this(id,baseAttackerId);
+    public Colony(int id, int baseAttackerId, BaseCell base, int baseHealth) {
+        this(id, baseAttackerId);
         this.base = base;
         this.baseHealth = baseHealth;
     }
@@ -43,8 +37,6 @@ public class Colony {
         this.id = id;
         chatBox = new ChatBox();
         this.baseAttackerId = baseAttackerId;
-        addBread(ConstConfigs.COLONY_INITIAL_BREAD);
-        addGrass(ConstConfigs.COLONY_INITIAL_GRASS);
         ants = new HashMap<>();
         allSoldierAntsGeneratedCount = 0;
         allWorkerAntsGeneratedCount = 0;
@@ -55,20 +47,12 @@ public class Colony {
         baseHealth = initialBaseHealth;
     }
 
-    public int getGainedBread() {
-        return gainedBread;
-    }
-
     public List<ChatMessage> getAllMessagesThisTurn() {
         return allMessagesThisTurn;
     }
 
     public void setAllMessagesThisTurn(List<ChatMessage> allMessagesThisTurn) {
         this.allMessagesThisTurn = allMessagesThisTurn;
-    }
-
-    public int getGainedGrass() {
-        return gainedGrass;
     }
 
     public void setToBeGeneratedSoldiersCount(int toBeGeneratedSoldiersCount) {
@@ -88,57 +72,6 @@ public class Colony {
         else
             allSoldierAntsGeneratedCount++;
         this.ants.put(ant.getId(), ant);
-    }
-
-    private void addBread(int amount) {
-        gainedBread += amount;
-        thisTurnBread += amount;
-        if (gainedBread >= ConstConfigs.GENERATE_WORKER_BREAD_AMOUNT) {
-            generateWorker();
-        }
-    }
-
-    public int getThisTurnBread() {
-        return thisTurnBread;
-    }
-
-    public int getThisTurnGrass() {
-        return thisTurnGrass;
-    }
-
-    public void setThisTurnBread(int thisTurnBread) {
-        this.thisTurnBread = thisTurnBread;
-    }
-
-    public void setThisTurnGrass(int thisTurnGrass) {
-        this.thisTurnGrass = thisTurnGrass;
-    }
-
-    private void addGrass(int amount) {
-        gainedGrass += amount;
-        thisTurnGrass += amount;
-        if (gainedGrass >= ConstConfigs.GENERATE_SOLDIER_GRASS_AMOUNT) {
-            generateSoldier();
-        }
-    }
-
-    public void addResource(ResourceType resourceType, int amount) {
-        if (resourceType == ResourceType.GRASS)
-            addGrass(amount);
-        else
-            addBread(amount);
-    }
-
-    private void generateSoldier() {
-        int count = Math.floorDiv(gainedGrass, ConstConfigs.GENERATE_SOLDIER_GRASS_AMOUNT);
-        toBeGeneratedSoldiersCount += count;
-        gainedGrass -= count * ConstConfigs.GENERATE_SOLDIER_GRASS_AMOUNT;
-    }
-
-    private void generateWorker() {
-        int count = Math.floorDiv(gainedBread, ConstConfigs.GENERATE_WORKER_BREAD_AMOUNT);
-        toBeGeneratedWorkersCount += count;
-        gainedBread -= count * ConstConfigs.GENERATE_WORKER_BREAD_AMOUNT;
     }
 
     public int getId() {
@@ -191,10 +124,6 @@ public class Colony {
 
     public int getAllAntsGeneratedCount() {
         return allSoldierAntsGeneratedCount + allWorkerAntsGeneratedCount;
-    }
-
-    public int getAllResourcesAmount() {
-        return gainedBread + gainedGrass;
     }
 
     public int getBaseAttackerId() {

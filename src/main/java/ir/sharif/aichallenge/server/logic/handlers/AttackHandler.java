@@ -1,14 +1,12 @@
 package ir.sharif.aichallenge.server.logic.handlers;
 
 import ir.sharif.aichallenge.server.logic.config.ConstConfigs;
-import ir.sharif.aichallenge.server.logic.dto.payloads.AttackDTO;
 import ir.sharif.aichallenge.server.logic.model.AntRepository;
 import ir.sharif.aichallenge.server.logic.model.ant.Ant;
 import ir.sharif.aichallenge.server.logic.model.ant.AntType;
 import ir.sharif.aichallenge.server.logic.model.cell.BaseCell;
 import ir.sharif.aichallenge.server.logic.model.cell.Cell;
 import ir.sharif.aichallenge.server.logic.model.Colony.Colony;
-import ir.sharif.aichallenge.server.logic.model.cell.ResourceType;
 import ir.sharif.aichallenge.server.logic.model.map.GameMap;
 
 import java.util.ArrayList;

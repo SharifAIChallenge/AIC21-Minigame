@@ -5,10 +5,8 @@ import ir.sharif.aichallenge.server.logic.model.Colony.ColonyBuilder;
 import ir.sharif.aichallenge.server.logic.model.cell.BaseCell;
 import ir.sharif.aichallenge.server.logic.model.cell.Cell;
 import ir.sharif.aichallenge.server.logic.model.cell.CellType;
-import ir.sharif.aichallenge.server.logic.model.cell.ResourceType;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class MapBuilder {
