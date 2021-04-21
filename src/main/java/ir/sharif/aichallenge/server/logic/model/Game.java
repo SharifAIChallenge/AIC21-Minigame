@@ -200,7 +200,7 @@ public class Game {
         for (ActionInfo actionMessage : actionMessages) {
             Ant ant = antRepository.getAnt(actionMessage.getPlayerId());
             if (ant != null)
-                map.changeAntCurrentCell(ant, actionMessage.getDirection());
+                map.changeAntCurrentCell(ant, actionMessage.getDirection(), ConstConfigs.MOVE_NOISE);
         }
     }
 

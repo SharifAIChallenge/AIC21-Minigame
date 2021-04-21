@@ -30,7 +30,7 @@ public class GameMap {
         this.cells = cells;
     }
 
-    void setCell(int xPosition, int yPosition, Cell cell){
+    void setCell(int xPosition, int yPosition, Cell cell) {
         cells[yPosition][xPosition] = cell;
     }
 
@@ -83,9 +83,19 @@ public class GameMap {
         return allCells;
     }
 
-    public void changeAntCurrentCell(Ant ant, int moveType) {
+    public void changeAntCurrentCell(Ant ant, int moveType, double noise) {
         int newX = ant.getXPosition();
         int newY = ant.getYPosition();
+
+        Random random = new Random();
+        int randomNumber = random.nextInt();
+        if (0 <= randomNumber && randomNumber < noise)
+            moveType = (moveType + 1) % 4 + 1;
+        else if (noise <= randomNumber && randomNumber < 2 * noise)
+            moveType = (moveType + 2) % 4 + 1;
+        if (2 * noise <= randomNumber && randomNumber < 3 * noise)
+            moveType = (moveType + 3) % 4 + 1;
+
         switch (moveType) {
             case MoveType.UP:
                 newY -= 1;
