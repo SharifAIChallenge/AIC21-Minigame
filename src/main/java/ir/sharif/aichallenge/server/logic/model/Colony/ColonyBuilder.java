@@ -9,8 +9,8 @@ public class ColonyBuilder {
         colony = new Colony(id, baseCellId);
     }
 
-    public ColonyBuilder setBaseCell(BaseCell baseCell, int initialBaseHealth){
-        colony.setBaseCell(baseCell, initialBaseHealth);
+    public ColonyBuilder setBaseCell(BaseCell baseCell){
+        colony.addBaseCell(baseCell);
         return this;
     }
 

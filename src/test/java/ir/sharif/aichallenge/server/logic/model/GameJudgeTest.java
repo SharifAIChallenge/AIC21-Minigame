@@ -34,7 +34,6 @@ class GameJudgeTest {
 
     @Test
     void getWinner0() {
-        antRepository.getColony(0).decreaseBaseHealth(1);
         Colony winner = gameJudge.getWinner();
         assertEquals(antRepository.getColony(1),winner);
     }
@@ -42,11 +41,11 @@ class GameJudgeTest {
     @Test
     void getWinner1() {
         ColonyBuilder colonyBuilder1 = new ColonyBuilder(0,0);
-        colonyBuilder1.setBaseCell(new BaseCell(0,0), 5);
+        colonyBuilder1.setBaseCell(new BaseCell(0,0));
         Colony colony1=  colonyBuilder1.getColony();
 
         ColonyBuilder colonyBuilder2 = new ColonyBuilder(1, 1);
-        colonyBuilder2.setBaseCell(new BaseCell(100,100),5);
+        colonyBuilder2.setBaseCell(new BaseCell(100,100));
         Colony colony2 = colonyBuilder2.getColony();
         Ant ant = new Ant(0,1,100,100, AntType.SOLDIER);
         try {
@@ -68,7 +67,7 @@ class GameJudgeTest {
     @Test
     void getWinner2() {
         ColonyBuilder colonyBuilder1 = new ColonyBuilder(0,0);
-        colonyBuilder1.setBaseCell(new BaseCell(0,0), 5);
+        colonyBuilder1.setBaseCell(new BaseCell(0,0));
         Colony colony1=  colonyBuilder1.getColony();
         Ant ant1 = new Ant(0,0,0,0, AntType.WORKER);
         try {
@@ -81,7 +80,7 @@ class GameJudgeTest {
 
 
         ColonyBuilder colonyBuilder2 = new ColonyBuilder(1, 1);
-        colonyBuilder2.setBaseCell(new BaseCell(100,100),5);
+        colonyBuilder2.setBaseCell(new BaseCell(100,100));
         Colony colony2 = colonyBuilder2.getColony();
         Ant ant2 = new Ant(0,1,100,100, AntType.WORKER);
         try {

@@ -64,9 +64,6 @@ class AttackHandlerTest {
     @Test
     void handleBaseAttacks() {
         attackHandler.handleAttacks();
-        assertEquals(1 - ConstConfigs.BASE_ATTACK_DAMAGE, colonyHashMap.get(2).getBaseHealth());
-        assertEquals(ConstConfigs.BASE_INIT_HEALTH - ConstConfigs.BASE_ATTACK_DAMAGE, colonyHashMap.get(0).getBaseHealth());
-        assertEquals(ConstConfigs.BASE_INIT_HEALTH, colonyHashMap.get(1).getBaseHealth());
     }
 
     @Test

@@ -41,13 +41,4 @@ class AntTest {
         assertEquals(AntType.SOLDIER, soldierAnt.getAntType());
     }
 
-    @Test
-    void getCarryingResourceType() {
-        assertEquals(ResourceType.NONE, soldierAnt.getCarryingResourceType());
-
-        ResourceType expectedResourceType = ResourceType.BREAD;
-        workerAnt.setCarryingResourceType(expectedResourceType);
-
-        assertEquals(expectedResourceType, workerAnt.getCarryingResourceType());
-    }
 }
