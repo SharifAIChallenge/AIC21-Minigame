@@ -1,6 +1,9 @@
 package ir.sharif.aichallenge.server.logic.config;
 
 public class ConstConfigs {
+    public static int SOLDIER_GENERATION_CYCLE_LENGTH = 5;
+    public static int SOLDIER_GENERATION_RATE = 5;
+
     public static int WORKER_ANT_INITIAL_HEALTH = 3;
     public static int SOLDIER_ANT_INITIAL_HEALTH = 3;
 

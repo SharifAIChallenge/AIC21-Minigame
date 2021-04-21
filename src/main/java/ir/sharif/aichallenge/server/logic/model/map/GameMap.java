@@ -66,31 +66,6 @@ public class GameMap {
         return xAxisLength;
     }
 
-    public void addResource(ResourceType resourceType, int resourceAmount, int xPos, int yPos) {
-        for (int i = 0; i <= Math.min(yAxisLength, xAxisLength) / 2; i++) {
-            for (int x = xPos - i; x <= xPos + i; x++) {
-                for (int y = yPos - i; y <= yPos + i; y++) {
-                    if (getManhattanDistance(x, y, xPos, yPos) > i)
-                        continue;
-                    Cell cell = getCell(x, y);
-                    if (cell.cellType != CellType.EMPTY) {
-                        continue;
-                    }
-
-                    if (cell.getResourceType() == ResourceType.NONE) {
-                        cell.setResourceType(resourceType);
-                        cell.setResourceAmount(0);
-                    }
-
-                    if (resourceType == cell.getResourceType()) {
-                        cell.increaseResource(resourceAmount);
-                        return;
-                    }
-                }
-            }
-        }
-    }
-
     public int get‌BorderlessManhattanDistance(int x1, int y1, int x2, int y2) {
         return Math.min(Math.abs(x1 - x2), xAxisLength - Math.abs(x1 - x2)) +
                 Math.min(Math.abs(y1 - y2), yAxisLength - Math.abs(y1 - y2));

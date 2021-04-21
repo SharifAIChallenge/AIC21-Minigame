@@ -37,17 +37,17 @@ class AttackHandlerTest {
         int colonyId;
 
         colonyId = 0;
-        colonyBuilder = new ColonyBuilder(colonyId, -1);
+        colonyBuilder = new ColonyBuilder(colonyId);
         mapBuilder.addColony(colonyBuilder, ConstConfigs.BASE_INIT_HEALTH, 0, 0);
         colonyHashMap.put(colonyId, colonyBuilder.getColony());
 
         colonyId = 1;
-        colonyBuilder = new ColonyBuilder(colonyId, -3);
+        colonyBuilder = new ColonyBuilder(colonyId);
         mapBuilder.addColony(colonyBuilder, ConstConfigs.BASE_INIT_HEALTH);
         colonyHashMap.put(colonyId, colonyBuilder.getColony());
 
         colonyId = 2;
-        colonyBuilder = new ColonyBuilder(colonyId, -2);
+        colonyBuilder = new ColonyBuilder(colonyId);
         mapBuilder.addColony(colonyBuilder, 1, 1, 1);
         colonyHashMap.put(colonyId, colonyBuilder.getColony());
 

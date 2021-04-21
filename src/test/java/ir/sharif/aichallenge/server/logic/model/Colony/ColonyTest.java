@@ -19,7 +19,7 @@ class ColonyTest {
     @BeforeEach
     void setUp() {
         baseCell = new BaseCell(0, 0);
-        colony = new Colony(0, -1);
+        colony = new Colony(0);
     }
 
     @AfterEach
