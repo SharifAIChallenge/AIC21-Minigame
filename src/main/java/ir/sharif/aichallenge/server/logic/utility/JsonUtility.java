@@ -72,28 +72,9 @@ public class JsonUtility {
         CellType cellType = CellType.getCellType(cell_type_value);
         // (cellType);
 
-        ResourceType resourceType = ResourceType.NONE;
-        int resourceAmount = 0;
-        int grass = ((Long) cell.get("rec1")).intValue();
-        // (ResourceType.getResourceType(1));
-
-        int bread = ((Long) cell.get("rec2")).intValue();
-        // (ResourceType.getResourceType(0));
-
-        if (grass != 0) {
-            resourceType = ResourceType.GRASS;
-            resourceAmount = grass;
-        } else if (bread != 0) {
-            resourceType = ResourceType.BREAD;
-            resourceAmount = bread;
-        } else {
-            resourceType = ResourceType.NONE;
-            resourceAmount = 0;
-        }
-
         if (cellType == CellType.BASE) {
             return new BaseCell(xPosition, yPosition);
         }
-        return new Cell(xPosition, yPosition, cellType, resourceType, resourceAmount);
+        return new Cell(xPosition, yPosition, cellType);
     }
 }

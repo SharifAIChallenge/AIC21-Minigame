@@ -71,8 +71,8 @@ public class MapGenerator {
                 Log.e("MapGenerator", "There should be two base cells in map.json!");
                 System.exit(-1);
             }
-            Colony firstColony = new Colony(0, -1, baseCells.get(0), ConstConfigs.BASE_INIT_HEALTH);
-            Colony secondColony = new Colony(1, -2, baseCells.get(1), ConstConfigs.BASE_INIT_HEALTH);
+            Colony firstColony = new Colony(0);
+            Colony secondColony = new Colony(1);
             baseCells.get(0).setColony(firstColony);
             baseCells.get(1).setColony(secondColony);
 
