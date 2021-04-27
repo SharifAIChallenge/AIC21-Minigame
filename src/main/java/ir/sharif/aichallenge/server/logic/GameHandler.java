@@ -94,6 +94,7 @@ public class GameHandler implements GameLogic {
         this.game = new Game(generatedMap.map, antRepository);
         this.game.graphicLogDTO.game_config = new GraphicGameConfigDTO(generatedMap.map);
 
+        // TODO: creating malake & scorpion
         game.getColonies().get(0).setToBeGeneratedSoldiersCount(initSoldiersNum);
         game.getColonies().get(0).setToBeGeneratedWorkersCount(initWorkersNum);
 
@@ -148,17 +149,17 @@ public class GameHandler implements GameLogic {
         }
         ArrayList<AntInfo> result = new ArrayList<>();
         Colony firstCol = game.getColony(0);
+        Cell firstBase = firstCol.getRandomBase();
         Colony secondCol = game.getColony(1);
+        Cell secondBase = secondCol.getRandomBase();
         int soldiers = firstCol.getToBeGeneratedSoldiersCount();
         int workers = firstCol.getToBeGeneratedWorkersCount();
         if (soldiers > 0 || workers > 0) {
             if (soldiers > 0) {
-                result.add(addNewAnt(firstCol.getBase().getX(), firstCol.getBase().getY(), firstCol.getId(),
-                        AntType.SOLDIER));
+                result.add(addNewAnt(firstBase.getX(), firstBase.getY(), firstCol.getId(), AntType.SOLDIER));
                 firstCol.setToBeGeneratedSoldiersCount(soldiers - 1);
             } else if (workers > 0) {
-                result.add(addNewAnt(firstCol.getBase().getX(), firstCol.getBase().getY(), firstCol.getId(),
-                        AntType.WORKER));
+                result.add(addNewAnt(firstBase.getX(), firstBase.getY(), firstCol.getId(), AntType.WORKER));
                 firstCol.setToBeGeneratedWorkersCount(workers - 1);
             }
         } else {
@@ -166,12 +167,10 @@ public class GameHandler implements GameLogic {
             workers = secondCol.getToBeGeneratedWorkersCount();
             if (soldiers > 0 || workers > 0) {
                 if (soldiers > 0) {
-                    result.add(addNewAnt(secondCol.getBase().getX(), secondCol.getBase().getY(), secondCol.getId(),
-                            AntType.SOLDIER));
+                    result.add(addNewAnt(secondBase.getX(), secondBase.getY(), secondCol.getId(), AntType.SOLDIER));
                     secondCol.setToBeGeneratedSoldiersCount(soldiers - 1);
                 } else if (workers > 0) {
-                    result.add(addNewAnt(secondCol.getBase().getX(), secondCol.getBase().getY(), secondCol.getId(),
-                            AntType.WORKER));
+                    result.add(addNewAnt(secondBase.getX(), secondBase.getY(), secondCol.getId(), AntType.WORKER));
                     secondCol.setToBeGeneratedWorkersCount(workers - 1);
                 }
             }
@@ -214,16 +213,15 @@ public class GameHandler implements GameLogic {
     private void showMap(boolean showChatbox) {
         Log.i("GameHandler", "--------this turn: " + (game.getTurn() - 1) + "--------");
         for (Cell cell : game.getMap().getAllCells()) {
-            Log.i("GameHandler",
-                    "[" + cell.getX() + "," + cell.getY() + "]: " + cell.getCellType().toString() + " "
-                            + cell.getResourceType().toString() + ":" + cell.getResourceAmount() + " --> "
-                            + getAntsIds(cell.getAnts()));
+            Log.i("GameHandler", "[" + cell.getX() + "," + cell.getY() + "]: " + cell.getCellType().toString() + " " + 0
+                    + ":" + 0 + " --> " + getAntsIds(cell.getAnts()));
         }
         Log.i("GameHandler", "\n");
         if (showChatbox) {
             for (Colony colony : game.getColonies()) {
-                Log.i("GameHandler", "chatbox for colony: " + colony.getId() + " with health: " + colony.getBaseHealth()
-                        + " bread:" + colony.getGainedBread() + " grass:" + colony.getGainedGrass());
+                // Log.i("GameHandler", "chatbox for colony: " + colony.getId() + " with health:
+                // " + colony.getBaseHealth()
+                // + " bread:" + colony.getGainedBread() + " grass:" + colony.getGainedGrass());
                 for (ChatMessage message : colony.getChatBox().getChatMessages()) {
                     Log.i("GameHandler", Json.GSON.toJson(message, ChatMessage.class));
                 }

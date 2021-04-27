@@ -45,13 +45,13 @@ public class MapBuilder {
                 Cell newCell;
 
                 if (cellTypeSelector < breadCellProb)
-                    newCell = new Cell(j, i, CellType.EMPTY, ResourceType.BREAD, 1);
+                    newCell = new Cell(j, i, CellType.EMPTY);
                 else if (cellTypeSelector < breadCellProb + grassCellProb)
-                    newCell = new Cell(j, i, CellType.EMPTY, ResourceType.GRASS, 1);
+                    newCell = new Cell(j, i, CellType.EMPTY);
                 else if (cellTypeSelector < breadCellProb + grassCellProb + wallCellProb)
-                    newCell = new Cell(j, i, CellType.WALL, ResourceType.NONE, 0);
+                    newCell = new Cell(j, i, CellType.WALL);
                 else
-                    newCell = new Cell(j, i, CellType.EMPTY, ResourceType.NONE, 0);
+                    newCell = new Cell(j, i, CellType.EMPTY);
 
                 cells[i][j] = newCell;
             }

@@ -14,6 +14,6 @@ public class AntDTO {
         this.team = ant.getColonyId();
         this.type = ant.getAntType().getValue();
         this.health = ant.getHealth();
-        this.resource = ant.getCarryingResourceType().getValue();
+        this.resource = 0;
     }
 }
