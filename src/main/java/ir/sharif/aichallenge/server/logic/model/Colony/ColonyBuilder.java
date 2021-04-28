@@ -1,6 +1,8 @@
 package ir.sharif.aichallenge.server.logic.model.Colony;
 
-import ir.sharif.aichallenge.server.logic.model.cell.BaseCell;
+import ir.sharif.aichallenge.server.logic.model.cell.Cell;
+
+import java.util.List;
 
 public class ColonyBuilder {
     private Colony colony;
@@ -9,8 +11,8 @@ public class ColonyBuilder {
         colony = new Colony(id);
     }
 
-    public ColonyBuilder setBaseCell(BaseCell baseCell){
-        colony.addBaseCell(baseCell);
+    public ColonyBuilder setBaseCells(List<Cell> baseCells){
+        colony.setBaseCells(baseCells);
         return this;
     }
 
