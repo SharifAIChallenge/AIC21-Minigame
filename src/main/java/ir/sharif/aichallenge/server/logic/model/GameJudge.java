@@ -18,12 +18,12 @@ public class GameJudge {
     public Colony getWinner() {
         List<Colony> aliveColonies = getAliveColonies(antRepository.getColonies());
         switch (aliveColonies.size()) {
-            case 0:
-                return null;
-            case 1:
-                return aliveColonies.get(0);
-            default:
-                return getWinnerByQueenHealth(aliveColonies);
+        case 0:
+            return null;
+        case 1:
+            return aliveColonies.get(0);
+        default:
+            return getWinnerByQueenHealth(aliveColonies);
         }
     }
 
@@ -44,18 +44,20 @@ public class GameJudge {
     }
 }
 
-//class ColonyComparator implements Comparator<Colony> {
+// class ColonyComparator implements Comparator<Colony> {
 //
-//    @Override
-//    public int compare(Colony o1, Colony o2) {
-//        if (o1.getQueen().getHealth() != o2.getQueen().getHealth())
-//            return o1.getQueen().getHealth() - o2.getQueen().getHealth();
-//        if (o1.getAnts().size() != o2.getAnts().size())
-//            return o1.getAnts().size() - o2.getAnts().size();
-//        if (o1.getAllAntsGeneratedCount() != o2.getAllAntsGeneratedCount())
-//            return o1.getAllAntsGeneratedCount() - o2.getAllAntsGeneratedCount();
-//        if (o1.getAllSoldierAntsGeneratedCount() != o2.getAllSoldierAntsGeneratedCount())
-//            return o1.getAllSoldierAntsGeneratedCount() - o2.getAllSoldierAntsGeneratedCount();
-//        return 0;
-//    }
-//}
+// @Override
+// public int compare(Colony o1, Colony o2) {
+// if (o1.getQueen().getHealth() != o2.getQueen().getHealth())
+// return o1.getQueen().getHealth() - o2.getQueen().getHealth();
+// if (o1.getAnts().size() != o2.getAnts().size())
+// return o1.getAnts().size() - o2.getAnts().size();
+// if (o1.getAllAntsGeneratedCount() != o2.getAllAntsGeneratedCount())
+// return o1.getAllAntsGeneratedCount() - o2.getAllAntsGeneratedCount();
+// if (o1.getAllSoldierAntsGeneratedCount() !=
+// o2.getAllSoldierAntsGeneratedCount())
+// return o1.getAllSoldierAntsGeneratedCount() -
+// o2.getAllSoldierAntsGeneratedCount();
+// return 0;
+// }
+// }

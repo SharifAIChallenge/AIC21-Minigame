@@ -30,7 +30,7 @@ public class ConfigReader {
             System.exit(4);
         }
         try {
-            ConstConfigs.WORKER_ANT_INITIAL_HEALTH = Integer.parseInt(props.getProperty("WORKER_ANT_INITIAL_HEALTH"));
+            ConstConfigs.QUEEN_ANT_INITIAL_HEALTH = Integer.parseInt(props.getProperty("QUEEN_ANT_INITIAL_HEALTH"));
             ConstConfigs.SOLDIER_ANT_INITIAL_HEALTH = Integer.parseInt(props.getProperty("SOLDIER_ANT_INITIAL_HEALTH"));
             ConstConfigs.COLONY_INITIAL_BREAD = Integer.parseInt(props.getProperty("COLONY_INITIAL_BREAD"));
             ConstConfigs.COLONY_INITIAL_GRASS = Integer.parseInt(props.getProperty("COLONY_INITIAL_GRASS"));
@@ -50,7 +50,11 @@ public class ConfigReader {
             ConstConfigs.BASE_INIT_HEALTH = Integer.parseInt(props.getProperty("BASE_INIT_HEALTH"));
             ConstConfigs.READ_MAP_FROM_FILE = Boolean.parseBoolean(props.getProperty("READ_MAP_FROM_FILE"));
             GameHandler.initSoldiersNum = Integer.parseInt(props.getProperty("INIT_SCORPIONS"));
-            GameHandler.initWorkersNum = Integer.parseInt(props.getProperty("INIT_ANTS"));
+            // GameHandler.initWorkersNum = Integer.parseInt(props.getProperty("INIT_ANTS"));
+            ConstConfigs.MOVE_NOISE = Float.parseFloat(props.getProperty("MOVE_NOISE"));
+            ConstConfigs.SOLDIER_GENERATION_CYCLE_LENGTH = Integer
+                    .parseInt(props.getProperty("SOLDIER_GENERATION_CYCLE_LENGTH"));
+            ConstConfigs.SOLDIER_GENERATION_RATE = Integer.parseInt(props.getProperty("SOLDIER_GENERATION_RATE"));
             try {
                 AntGenerator.PROCESS_TIMEOUT_SECONDS = Integer.parseInt(props.getProperty("PROCESS_TIMEOUT_SECONDS"));
             } catch (Exception ignored) {

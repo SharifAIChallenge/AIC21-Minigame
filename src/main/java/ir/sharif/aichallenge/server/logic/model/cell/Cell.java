@@ -50,6 +50,6 @@ public class Cell {
     }
 
     public List<Ant> getWorkerAnts() {
-        return ants.stream().filter(x -> x.getAntType() == AntType.WORKER).collect(Collectors.toList());
+        return ants.stream().filter(x -> x.getAntType() == AntType.QUEEN).collect(Collectors.toList());
     }
 }

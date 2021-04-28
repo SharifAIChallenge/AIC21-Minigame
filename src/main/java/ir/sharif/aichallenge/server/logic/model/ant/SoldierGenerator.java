@@ -11,14 +11,16 @@ public class SoldierGenerator {
     private int soldierGenerationCycleLength;
     private int soldierGenerationRate;
 
-    public SoldierGenerator(AntRepository antRepository){
+    public SoldierGenerator(AntRepository antRepository) {
         this.antRepository = antRepository;
         soldierGenerationRate = ConstConfigs.SOLDIER_GENERATION_RATE;
         soldierGenerationCycleLength = ConstConfigs.SOLDIER_GENERATION_CYCLE_LENGTH;
     }
 
-    public void GenerateSoldiers(int turn){
+    public void GenerateSoldiers(int turn) {
         if (turn % soldierGenerationCycleLength != 0)
+            return;
+        if (turn == 0)
             return;
 
         List<Colony> colonies = antRepository.getColonies();

@@ -11,8 +11,8 @@ class GameMapTest {
     private GameMap gameMap;
     @BeforeEach
     void setUp() {
-        MapGenerator.MapGeneratorResult generatedMap = MapGenerator.generateRandomMap();
-        gameMap = generatedMap.map;
+        // MapGenerator.MapGeneratorResult generatedMap = MapGenerator.generateRandomMap();
+        // gameMap = generatedMap.map;
     }
 
     @AfterEach

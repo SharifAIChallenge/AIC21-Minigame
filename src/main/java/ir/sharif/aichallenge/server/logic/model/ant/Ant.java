@@ -22,9 +22,8 @@ public class Ant {
     }
 
     private void setInitialHealth(AntType antType) {
-        health = antType == AntType.WORKER ?
-                ConstConfigs.WORKER_ANT_INITIAL_HEALTH :
-                ConstConfigs.SOLDIER_ANT_INITIAL_HEALTH;
+        health = antType == AntType.QUEEN ? ConstConfigs.QUEEN_ANT_INITIAL_HEALTH
+                : ConstConfigs.SOLDIER_ANT_INITIAL_HEALTH;
     }
 
     public void moveTo(int newX, int newY) {
@@ -64,6 +63,3 @@ public class Ant {
         return antType;
     }
 }
-
-
-

@@ -4,6 +4,7 @@ import ir.sharif.aichallenge.server.logic.handlers.exceptions.GameActionExceptio
 import ir.sharif.aichallenge.server.logic.handlers.exceptions.InvalidAntForColonyException;
 import ir.sharif.aichallenge.server.logic.model.ant.Ant;
 import ir.sharif.aichallenge.server.logic.model.ant.AntGenerationRequest;
+import ir.sharif.aichallenge.server.logic.model.ant.AntType;
 import ir.sharif.aichallenge.server.logic.model.cell.BaseCell;
 import ir.sharif.aichallenge.server.logic.model.cell.Cell;
 import ir.sharif.aichallenge.server.logic.model.chatbox.ChatBox;
@@ -25,6 +26,7 @@ public class Colony {
     private ChatBox chatBox;
     private List<ChatMessage> allMessagesThisTurn;
     private List<AntGenerationRequest> antGenerationRequests;
+    private int totalScoprions = 0;
 
     public Colony(int id, ColonyInitPackage initPackage) {
         this.id = id;
@@ -65,7 +67,18 @@ public class Colony {
             throw new InvalidAntForColonyException("");
         }
 
+        if (ant.getAntType() == AntType.SCORPION) {
+            totalScoprions++;
+        }
+
         this.ants.put(ant.getId(), ant);
+
+        if (ant.getAntType() == AntType.QUEEN)
+            this.queen = ant;
+    }
+
+    public int getTotalScoprions() {
+        return totalScoprions;
     }
 
     public int getId() {

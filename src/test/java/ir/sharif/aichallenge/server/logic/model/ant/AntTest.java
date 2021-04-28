@@ -11,8 +11,8 @@ class AntTest {
 
     @BeforeEach
     void setUp() {
-        soldierAnt = new Ant(0, 0, 0, 0, AntType.SOLDIER);
-        workerAnt = new Ant(1, 0, 0, 0, AntType.WORKER);
+        soldierAnt = new Ant(0, 0, 0, 0, AntType.SCORPION);
+        workerAnt = new Ant(1, 0, 0, 0, AntType.QUEEN);
     }
 
     @Test
@@ -37,8 +37,8 @@ class AntTest {
 
     @Test
     void getAntType() {
-        assertEquals(AntType.WORKER, workerAnt.getAntType());
-        assertEquals(AntType.SOLDIER, soldierAnt.getAntType());
+        assertEquals(AntType.QUEEN, workerAnt.getAntType());
+        assertEquals(AntType.SCORPION, soldierAnt.getAntType());
     }
 
 }

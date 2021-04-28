@@ -68,8 +68,8 @@ class AttackHandlerTest {
 
     @Test
     void handleAttacks() {
-        Ant ant1 = new Ant(0, 0, 5, 5, AntType.SOLDIER);
-        Ant ant2 = new Ant(1, 1, 5, 5, AntType.SOLDIER);
+        Ant ant1 = new Ant(0, 0, 5, 5, AntType.SCORPION);
+        Ant ant2 = new Ant(1, 1, 5, 5, AntType.SCORPION);
         try {
             colonyHashMap.get(0).addNewAnt(ant1);
             colonyHashMap.get(1).addNewAnt(ant2);
@@ -92,8 +92,8 @@ class AttackHandlerTest {
 
     @Test
     void getNewDeadAnts() {
-        Ant ant1 = new Ant(0, 0, 5, 5, AntType.SOLDIER);
-        Ant ant2 = new Ant(1, 1, 5, 5, AntType.SOLDIER);
+        Ant ant1 = new Ant(0, 0, 5, 5, AntType.SCORPION);
+        Ant ant2 = new Ant(1, 1, 5, 5, AntType.SCORPION);
         try {
             colonyHashMap.get(0).addNewAnt(ant1);
             colonyHashMap.get(1).addNewAnt(ant2);
@@ -118,8 +118,8 @@ class AttackHandlerTest {
 
     @Test
     void getNearByAttacks() {
-        Ant ant1 = new Ant(0, 0, 1, 1, AntType.SOLDIER);
-        Ant ant2 = new Ant(1, 1, 1, 1, AntType.SOLDIER);
+        Ant ant1 = new Ant(0, 0, 1, 1, AntType.SCORPION);
+        Ant ant2 = new Ant(1, 1, 1, 1, AntType.SCORPION);
         try {
             colonyHashMap.get(0).addNewAnt(ant1);
             colonyHashMap.get(1).addNewAnt(ant2);

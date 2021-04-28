@@ -32,7 +32,7 @@ public class AttackHandler {
 
         for (Colony colony : antRepository.getColonies()) {
             for (Ant ant : colony.getAnts()) {
-                if (ant.getAntType().equals(AntType.SOLDIER))
+                if (ant.getAntType().equals(AntType.SCORPION))
                     runAttack(colony.getId(), ant.getXPosition(), ant.getYPosition(),
                             ConstConfigs.ANT_ATTACK_DAMAGE, ConstConfigs.ANT_MAX_ATTACK_DISTANCE, ant.getId());
             }
@@ -48,7 +48,7 @@ public class AttackHandler {
         for (Cell cell : cells) {
             for (Ant cellAnt : cell.getAnts()) {
                 if (cellAnt.getColonyId() != colonyId && cellAnt.getHealth() > 0) {
-                    if (cellAnt.getAntType() == AntType.SOLDIER)
+                    if (cellAnt.getAntType() == AntType.SCORPION)
                         soldiers.add(cellAnt);
                     else
                         workers.add(cellAnt);

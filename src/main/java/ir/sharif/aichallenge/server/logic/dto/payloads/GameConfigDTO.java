@@ -30,7 +30,7 @@ public class GameConfigDTO {
         this.ant_type = ant.getAntType().getValue();
         this.base_x = 0;
         this.base_y = 0;
-        this.health_kargar = ConstConfigs.WORKER_ANT_INITIAL_HEALTH;
+        this.health_kargar = ConstConfigs.QUEEN_ANT_INITIAL_HEALTH;
         this.health_sarbaaz = ConstConfigs.SOLDIER_ANT_INITIAL_HEALTH;
         this.attack_distance = ConstConfigs.ANT_MAX_ATTACK_DISTANCE;
         this.generate_kargar = ConstConfigs.GENERATE_WORKER_BREAD_AMOUNT;
@@ -41,6 +41,7 @@ public class GameConfigDTO {
         for (Cell base : game.getColony(ant.getColonyId()).getBaseCells()) {
             bases.add(new BaseDTO(base.getX(), base.getY()));
         }
+        this.bases = bases.toArray(new BaseDTO[] {});
     }
 
     public static class BaseDTO {

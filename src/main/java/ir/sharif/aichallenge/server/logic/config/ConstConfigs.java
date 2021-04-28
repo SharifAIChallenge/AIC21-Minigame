@@ -5,7 +5,7 @@ public class ConstConfigs {
     public static int SOLDIER_GENERATION_CYCLE_LENGTH = 5;
     public static int SOLDIER_GENERATION_RATE = 2;
 
-    public static int WORKER_ANT_INITIAL_HEALTH = 3;
+    public static int QUEEN_ANT_INITIAL_HEALTH = 3;
     public static int SOLDIER_ANT_INITIAL_HEALTH = 3;
 
     public static int COLONY_INITIAL_BREAD = 0;

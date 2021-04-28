@@ -28,8 +28,8 @@ class ColonyTest {
 
     @Test
     void addNewAnt() {
-        Ant soldier = new Ant(0, colony.getId(), 0, 0, AntType.SOLDIER);
-        Ant worker = new Ant(1, colony.getId(), 0, 0, AntType.WORKER);
+        Ant soldier = new Ant(0, colony.getId(), 0, 0, AntType.SCORPION);
+        Ant worker = new Ant(1, colony.getId(), 0, 0, AntType.QUEEN);
         try {
             colony.addNewAnt(worker);
             colony.addNewAnt(soldier);

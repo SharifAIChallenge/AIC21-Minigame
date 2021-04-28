@@ -27,8 +27,8 @@ class CellTest {
         emptyCell = new Cell(0, 2, CellType.EMPTY);
         breadEmptyCell = new Cell(0, 3, CellType.EMPTY);
         grassEmptyCell = new Cell(0, 4, CellType.EMPTY);
-        soldierAnt = new Ant(0, 0, 0, 0, AntType.SOLDIER);
-        workerAnt = new Ant(1, 0, 0, 0, AntType.WORKER);
+        soldierAnt = new Ant(0, 0, 0, 0, AntType.SCORPION);
+        workerAnt = new Ant(1, 0, 0, 0, AntType.QUEEN);
         baseCell.addAnt(soldierAnt);
         baseCell.addAnt(workerAnt);
     }

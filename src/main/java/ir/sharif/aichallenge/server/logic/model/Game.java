@@ -86,8 +86,6 @@ public class Game {
     private void generateTurnGraphicLog() {
         TurnDTO turnLog = new TurnDTO();
         turnLog.turn_num = currentTurn;
-        turnLog.base0_health = this.getColonies().get(0).getBaseHealth();
-        turnLog.base1_health = this.getColonies().get(1).getBaseHealth();
         List<ChatElementDTO> chat_box_0 = new ArrayList<>();
         this.getColonies().get(0).getChatBox().getChatMessages().forEach(
                 (msg) -> chat_box_0.add(new ChatElementDTO(msg.getMessage(), msg.getValue(), msg.getSender_id())));
@@ -128,31 +126,21 @@ public class Game {
 
     private TurnDTO addMoreToLog(TurnDTO log, int colonyID) {
         List<Ant> ants = getColony(colonyID).getAnts();
-        int workers_alive = 0;
-        int workers = 0;
         int soldier_alive = 0;
         int soldiers = 0;
         for (Ant ant : ants) {
-            if (ant.getAntType() == AntType.SOLDIER) {
+            if (ant.getAntType() == AntType.SCORPION) {
                 soldiers++;
                 if (!ant.isDead())
                     soldier_alive++;
-            } else {
-                workers++;
-                if (!ant.isDead())
-                    workers_alive++;
             }
         }
         if (colonyID == 0) {
-            log.team0_alive_soldiers = soldier_alive;
-            log.team0_alive_workers = workers_alive;
-            log.team0_total_soldiers = getColonies().get(0).getAllSoldierAntsGeneratedCount();
-            log.team0_total_workers = getColonies().get(0).getAllAntsGeneratedCount() - log.team0_total_soldiers;
+            log.team0_alive_scorpions = soldier_alive;
+            log.team0_total_scorpions = getColonies().get(0).getTotalScoprions();
         } else {
-            log.team1_alive_soldiers = soldier_alive;
-            log.team1_alive_workers = workers_alive;
-            log.team1_total_soldiers = getColonies().get(1).getAllSoldierAntsGeneratedCount();
-            log.team1_total_workers = getColonies().get(1).getAllAntsGeneratedCount() - log.team1_total_soldiers;
+            log.team1_alive_scorpions = soldier_alive;
+            log.team1_total_scorpions = getColonies().get(1).getTotalScoprions();
         }
         return log;
     }
@@ -233,8 +221,11 @@ public class Game {
             return true;
         }
         for (Colony colony : antRepository.getColonies()) {
-            if (colony.getBaseHealth() <= 0) {
-                return true;
+            try {
+                if (colony.getQueen().getHealth() <= 0) {
+                    return true;
+                }
+            } catch (NullPointerException ignore) {
             }
         }
         return false;
