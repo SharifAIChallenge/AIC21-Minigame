@@ -11,6 +11,7 @@ import ir.sharif.aichallenge.server.logic.handlers.exceptions.GameActionExceptio
 import ir.sharif.aichallenge.server.logic.model.Colony.Colony;
 import ir.sharif.aichallenge.server.logic.model.ant.Ant;
 import ir.sharif.aichallenge.server.logic.model.ant.AntType;
+import ir.sharif.aichallenge.server.logic.model.ant.SoldierGenerator;
 import ir.sharif.aichallenge.server.logic.model.cell.Cell;
 import ir.sharif.aichallenge.server.logic.model.chatbox.ChatMessage;
 import ir.sharif.aichallenge.server.logic.model.map.GameMap;
@@ -40,6 +41,7 @@ public class Game {
     private MessageAdapter messageAdapter;
     private GameJudge gameJudge;
     public GraphicLogDTO graphicLogDTO = new GraphicLogDTO();
+    private SoldierGenerator soldierGenerator;
 
     // messages to be sent to clients in this turn
     private Message[] clientTurnMessages;
@@ -58,9 +60,12 @@ public class Game {
         attackHandler = new AttackHandler(map, antRepository);
         messageAdapter = new MessageAdapter();
         gameJudge = new GameJudge(antRepository);
+        soldierGenerator = new SoldierGenerator(antRepository);
     }
 
     public void passTurn(Map<String, List<ClientMessageInfo>> messages) {
+        soldierGenerator.GenerateSoldiers(currentTurn);
+
         messages = filterMessages(messages);
         attackHandler.handleAttacks();
         newDeadAnts = attackHandler.getNewDeadAnts();
