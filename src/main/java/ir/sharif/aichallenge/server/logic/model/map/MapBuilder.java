@@ -86,7 +86,6 @@ public class MapBuilder {
 
         BaseCell baseCell = new BaseCell(x, y);
         gameMap.setCell(x, y, baseCell);
-        colonyBuilder.setBaseCell(baseCell, colonyInitialBaseHealth);
         baseCell.setColony(colonyBuilder.getColony());
         return this;
     }

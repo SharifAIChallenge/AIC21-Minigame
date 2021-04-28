@@ -3,7 +3,7 @@ package ir.sharif.aichallenge.server.logic.model.Colony;
 import ir.sharif.aichallenge.server.logic.handlers.exceptions.GameActionException;
 import ir.sharif.aichallenge.server.logic.handlers.exceptions.InvalidAntForColonyException;
 import ir.sharif.aichallenge.server.logic.model.ant.Ant;
-import ir.sharif.aichallenge.server.logic.model.ant.SoldierGenerationRequest;
+import ir.sharif.aichallenge.server.logic.model.ant.AntGenerationRequest;
 import ir.sharif.aichallenge.server.logic.model.cell.BaseCell;
 import ir.sharif.aichallenge.server.logic.model.cell.Cell;
 import ir.sharif.aichallenge.server.logic.model.chatbox.ChatBox;
@@ -24,18 +24,32 @@ public class Colony {
     private Ant queen;
     private ChatBox chatBox;
     private List<ChatMessage> allMessagesThisTurn;
-    private List<SoldierGenerationRequest> soldierGenerationRequests;
+    private List<AntGenerationRequest> antGenerationRequests;
+
+    public Colony(int id, ColonyInitPackage initPackage) {
+        this.id = id;
+        chatBox = new ChatBox();
+        ants = new HashMap<>();
+        antGenerationRequests = new ArrayList<>();
+        bases = initPackage.getBaseCells();
+        antGenerationRequests.add(new AntGenerationRequest(initPackage.getQueenStartPosition(), true));
+    }
 
     public Colony(int id) {
         this.id = id;
         chatBox = new ChatBox();
         ants = new HashMap<>();
-        soldierGenerationRequests = new ArrayList<>();
+        antGenerationRequests = new ArrayList<>();
     }
 
-    void addBaseCell(BaseCell baseCell) {
+    void setBaseCells(List<Cell> baseCells) {
+        for (Cell baseCell : baseCells) {
+            if (!(baseCell instanceof BaseCell)) {
+                throw new RuntimeException("not a base cell was tried to add as colony base cell");
+            }
+        }
         // TODO ADD to bases
-        base = baseCell;
+        this.bases = baseCells;
     }
 
     public List<ChatMessage> getAllMessagesThisTurn() {
@@ -83,7 +97,7 @@ public class Colony {
     }
 
     public void pushSoldierGenerationRequest(int xPosition, int yPosition) {
-        soldierGenerationRequests.add(new SoldierGenerationRequest(xPosition, yPosition));
+        antGenerationRequests.add(new AntGenerationRequest(xPosition, yPosition, false));
     }
 
     public void pushSoldierGenerationRequest(int count) {
@@ -93,19 +107,19 @@ public class Colony {
                 return;
 
             Cell base = bases.get(i);
-            soldierGenerationRequests.add(new SoldierGenerationRequest(base));
+            antGenerationRequests.add(new AntGenerationRequest(base, false));
         }
     }
 
-    public SoldierGenerationRequest popSodlierGenerationRequest() {
+    public AntGenerationRequest popSodlierGenerationRequest() {
         if (!hasAnyPendingSoldierGenerationRequest())
             return null;
 
-        return soldierGenerationRequests.remove(0);
+        return antGenerationRequests.remove(0);
     }
 
     public boolean hasAnyPendingSoldierGenerationRequest() {
-        return soldierGenerationRequests.size() > 0;
+        return antGenerationRequests.size() > 0;
     }
 
     public Ant getQueen() {
