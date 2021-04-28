@@ -11,6 +11,7 @@ import ir.sharif.aichallenge.server.logic.handlers.exceptions.GameActionExceptio
 import ir.sharif.aichallenge.server.logic.model.Colony.Colony;
 import ir.sharif.aichallenge.server.logic.model.ant.Ant;
 import ir.sharif.aichallenge.server.logic.model.ant.AntType;
+import ir.sharif.aichallenge.server.logic.model.ant.SoldierGenerator;
 import ir.sharif.aichallenge.server.logic.model.cell.Cell;
 import ir.sharif.aichallenge.server.logic.model.chatbox.ChatMessage;
 import ir.sharif.aichallenge.server.logic.model.map.GameMap;
@@ -40,6 +41,7 @@ public class Game {
     private MessageAdapter messageAdapter;
     private GameJudge gameJudge;
     public GraphicLogDTO graphicLogDTO = new GraphicLogDTO();
+    private SoldierGenerator soldierGenerator;
 
     // messages to be sent to clients in this turn
     private Message[] clientTurnMessages;
@@ -58,16 +60,18 @@ public class Game {
         attackHandler = new AttackHandler(map, antRepository);
         messageAdapter = new MessageAdapter();
         gameJudge = new GameJudge(antRepository);
+        soldierGenerator = new SoldierGenerator(antRepository);
     }
 
     public void passTurn(Map<String, List<ClientMessageInfo>> messages) {
+        soldierGenerator.GenerateSoldiers(currentTurn);
+
         messages = filterMessages(messages);
         attackHandler.handleAttacks();
         newDeadAnts = attackHandler.getNewDeadAnts();
         removeDeadAntsNewMessages(messages);
         handleChatMessages(messages);
         handleAntsMove(messages);
-        map.getAllCells().forEach(Cell::manageResources);
         /*
          * if (isFinished()) { Colony winnerColony = gameJudge.getWinner();
          * this.graphicLogDTO.game_config.winner = winnerColony.getId();
@@ -82,8 +86,6 @@ public class Game {
     private void generateTurnGraphicLog() {
         TurnDTO turnLog = new TurnDTO();
         turnLog.turn_num = currentTurn;
-        turnLog.base0_health = this.getColonies().get(0).getBaseHealth();
-        turnLog.base1_health = this.getColonies().get(1).getBaseHealth();
         List<ChatElementDTO> chat_box_0 = new ArrayList<>();
         this.getColonies().get(0).getChatBox().getChatMessages().forEach(
                 (msg) -> chat_box_0.add(new ChatElementDTO(msg.getMessage(), msg.getValue(), msg.getSender_id())));
@@ -105,7 +107,6 @@ public class Game {
 
         turnLog = addMoreToLog(turnLog, 0);
         turnLog = addMoreToLog(turnLog, 1);
-        turnLog = addResourceLog(turnLog);
 
         List<ChatElementDTO> trivial_chat_box_0 = new ArrayList<>();
         if (getColony(0).getAllMessagesThisTurn() != null)
@@ -123,49 +124,23 @@ public class Game {
         graphicLogDTO.turns.add(turnLog);
     }
 
-    private TurnDTO addResourceLog(TurnDTO log) {
-        log.team0_current_resource0 = getColony(0).getThisTurnBread();
-        log.team0_current_resource1 = getColony(0).getThisTurnGrass();
-        log.team1_current_resource0 = getColony(1).getThisTurnBread();
-        log.team1_current_resource1 = getColony(1).getThisTurnGrass();
-        log.team0_total_resource0 = getColony(0).getGainedBread();
-        log.team0_total_resource1 = getColony(0).getGainedGrass();
-        log.team1_total_resource0 = getColony(1).getGainedBread();
-        log.team1_total_resource1 = getColony(1).getGainedGrass();
-        getColony(0).setThisTurnBread(0);
-        getColony(0).setThisTurnGrass(0);
-        getColony(1).setThisTurnBread(0);
-        getColony(1).setThisTurnGrass(0);
-        return log;
-    }
-
     private TurnDTO addMoreToLog(TurnDTO log, int colonyID) {
         List<Ant> ants = getColony(colonyID).getAnts();
-        int workers_alive = 0;
-        int workers = 0;
         int soldier_alive = 0;
         int soldiers = 0;
         for (Ant ant : ants) {
-            if (ant.getAntType() == AntType.SOLDIER) {
+            if (ant.getAntType() == AntType.SCORPION) {
                 soldiers++;
                 if (!ant.isDead())
                     soldier_alive++;
-            } else {
-                workers++;
-                if (!ant.isDead())
-                    workers_alive++;
             }
         }
         if (colonyID == 0) {
-            log.team0_alive_soldiers = soldier_alive;
-            log.team0_alive_workers = workers_alive;
-            log.team0_total_soldiers = getColonies().get(0).getAllSoldierAntsGeneratedCount();
-            log.team0_total_workers = getColonies().get(0).getAllAntsGeneratedCount() - log.team0_total_soldiers;
+            log.team0_alive_scorpions = soldier_alive;
+            log.team0_total_scorpions = getColonies().get(0).getTotalScoprions();
         } else {
-            log.team1_alive_soldiers = soldier_alive;
-            log.team1_alive_workers = workers_alive;
-            log.team1_total_soldiers = getColonies().get(1).getAllSoldierAntsGeneratedCount();
-            log.team1_total_workers = getColonies().get(1).getAllAntsGeneratedCount() - log.team1_total_soldiers;
+            log.team1_alive_scorpions = soldier_alive;
+            log.team1_total_scorpions = getColonies().get(1).getTotalScoprions();
         }
         return log;
     }
@@ -218,7 +193,7 @@ public class Game {
         for (ActionInfo actionMessage : actionMessages) {
             Ant ant = antRepository.getAnt(actionMessage.getPlayerId());
             if (ant != null)
-                map.changeAntCurrentCell(ant, actionMessage.getDirection());
+                map.changeAntCurrentCell(ant, actionMessage.getDirection(), ConstConfigs.MOVE_NOISE);
         }
     }
 
@@ -246,8 +221,11 @@ public class Game {
             return true;
         }
         for (Colony colony : antRepository.getColonies()) {
-            if (colony.getBaseHealth() <= 0) {
-                return true;
+            try {
+                if (colony.getQueen().getHealth() <= 0) {
+                    return true;
+                }
+            } catch (NullPointerException ignore) {
             }
         }
         return false;

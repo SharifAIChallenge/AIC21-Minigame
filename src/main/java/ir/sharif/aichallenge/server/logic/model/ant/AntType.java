@@ -1,28 +1,28 @@
 package ir.sharif.aichallenge.server.logic.model.ant;
 
 public enum AntType {
-    SOLDIER, WORKER;
+    SCORPION, QUEEN;
 
     public int getValue() {
         switch (this) {
-            case WORKER:
-                return 1;
-            case SOLDIER:
-                return 0;
-            default:
-                return 1;
+        case QUEEN:
+            return 1;
+        case SCORPION:
+            return 0;
+        default:
+            return 1;
         }
     }
 
     @Override
     public String toString() {
         switch (this) {
-            case WORKER:
-                return "worker";
-            case SOLDIER:
-                return "soldier";
-            default:
-                return "none";
+        case QUEEN:
+            return "queen";
+        case SCORPION:
+            return "scorpion";
+        default:
+            return "none";
         }
     }
 }

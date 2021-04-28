@@ -1,7 +1,5 @@
 package ir.sharif.aichallenge.server.logic.model.ant;
 
-import ir.sharif.aichallenge.server.logic.model.cell.ResourceType;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,8 +11,8 @@ class AntTest {
 
     @BeforeEach
     void setUp() {
-        soldierAnt = new Ant(0, 0, 0, 0, AntType.SOLDIER);
-        workerAnt = new Ant(1, 0, 0, 0, AntType.WORKER);
+        soldierAnt = new Ant(0, 0, 0, 0, AntType.SCORPION);
+        workerAnt = new Ant(1, 0, 0, 0, AntType.QUEEN);
     }
 
     @Test
@@ -39,17 +37,8 @@ class AntTest {
 
     @Test
     void getAntType() {
-        assertEquals(AntType.WORKER, workerAnt.getAntType());
-        assertEquals(AntType.SOLDIER, soldierAnt.getAntType());
+        assertEquals(AntType.QUEEN, workerAnt.getAntType());
+        assertEquals(AntType.SCORPION, soldierAnt.getAntType());
     }
 
-    @Test
-    void getCarryingResourceType() {
-        assertEquals(ResourceType.NONE, soldierAnt.getCarryingResourceType());
-
-        ResourceType expectedResourceType = ResourceType.BREAD;
-        workerAnt.setCarryingResourceType(expectedResourceType);
-
-        assertEquals(expectedResourceType, workerAnt.getCarryingResourceType());
-    }
 }

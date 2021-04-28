@@ -1,14 +1,10 @@
 package ir.sharif.aichallenge.server.logic.model.map;
 
 import ir.sharif.aichallenge.server.logic.config.ConstConfigs;
-import ir.sharif.aichallenge.server.logic.model.Colony.Colony;
-import ir.sharif.aichallenge.server.logic.model.Colony.ColonyBuilder;
 import ir.sharif.aichallenge.server.logic.model.ant.Ant;
 import ir.sharif.aichallenge.server.logic.model.ant.MoveType;
-import ir.sharif.aichallenge.server.logic.model.cell.BaseCell;
 import ir.sharif.aichallenge.server.logic.model.cell.Cell;
 import ir.sharif.aichallenge.server.logic.model.cell.CellType;
-import ir.sharif.aichallenge.server.logic.model.cell.ResourceType;
 
 import java.util.*;
 
@@ -34,7 +30,7 @@ public class GameMap {
         this.cells = cells;
     }
 
-    void setCell(int xPosition, int yPosition, Cell cell){
+    void setCell(int xPosition, int yPosition, Cell cell) {
         cells[yPosition][xPosition] = cell;
     }
 
@@ -70,31 +66,6 @@ public class GameMap {
         return xAxisLength;
     }
 
-    public void addResource(ResourceType resourceType, int resourceAmount, int xPos, int yPos) {
-        for (int i = 0; i <= Math.min(yAxisLength, xAxisLength) / 2; i++) {
-            for (int x = xPos - i; x <= xPos + i; x++) {
-                for (int y = yPos - i; y <= yPos + i; y++) {
-                    if (getManhattanDistance(x, y, xPos, yPos) > i)
-                        continue;
-                    Cell cell = getCell(x, y);
-                    if (cell.cellType != CellType.EMPTY) {
-                        continue;
-                    }
-
-                    if (cell.getResourceType() == ResourceType.NONE) {
-                        cell.setResourceType(resourceType);
-                        cell.setResourceAmount(0);
-                    }
-
-                    if (resourceType == cell.getResourceType()) {
-                        cell.increaseResource(resourceAmount);
-                        return;
-                    }
-                }
-            }
-        }
-    }
-
     public int get‌BorderlessManhattanDistance(int x1, int y1, int x2, int y2) {
         return Math.min(Math.abs(x1 - x2), xAxisLength - Math.abs(x1 - x2)) +
                 Math.min(Math.abs(y1 - y2), yAxisLength - Math.abs(y1 - y2));
@@ -112,9 +83,19 @@ public class GameMap {
         return allCells;
     }
 
-    public void changeAntCurrentCell(Ant ant, int moveType) {
+    public void changeAntCurrentCell(Ant ant, int moveType, double noise) {
         int newX = ant.getXPosition();
         int newY = ant.getYPosition();
+
+        Random random = new Random();
+        int randomNumber = random.nextInt();
+        if (0 <= randomNumber && randomNumber < noise)
+            moveType = (moveType + 1) % 4 + 1;
+        else if (noise <= randomNumber && randomNumber < 2 * noise)
+            moveType = (moveType + 2) % 4 + 1;
+        if (2 * noise <= randomNumber && randomNumber < 3 * noise)
+            moveType = (moveType + 3) % 4 + 1;
+
         switch (moveType) {
             case MoveType.UP:
                 newY -= 1;

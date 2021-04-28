@@ -37,17 +37,17 @@ class AttackHandlerTest {
         int colonyId;
 
         colonyId = 0;
-        colonyBuilder = new ColonyBuilder(colonyId, -1);
+        colonyBuilder = new ColonyBuilder(colonyId);
         mapBuilder.addColony(colonyBuilder, ConstConfigs.BASE_INIT_HEALTH, 0, 0);
         colonyHashMap.put(colonyId, colonyBuilder.getColony());
 
         colonyId = 1;
-        colonyBuilder = new ColonyBuilder(colonyId, -3);
+        colonyBuilder = new ColonyBuilder(colonyId);
         mapBuilder.addColony(colonyBuilder, ConstConfigs.BASE_INIT_HEALTH);
         colonyHashMap.put(colonyId, colonyBuilder.getColony());
 
         colonyId = 2;
-        colonyBuilder = new ColonyBuilder(colonyId, -2);
+        colonyBuilder = new ColonyBuilder(colonyId);
         mapBuilder.addColony(colonyBuilder, 1, 1, 1);
         colonyHashMap.put(colonyId, colonyBuilder.getColony());
 
@@ -64,15 +64,12 @@ class AttackHandlerTest {
     @Test
     void handleBaseAttacks() {
         attackHandler.handleAttacks();
-        assertEquals(1 - ConstConfigs.BASE_ATTACK_DAMAGE, colonyHashMap.get(2).getBaseHealth());
-        assertEquals(ConstConfigs.BASE_INIT_HEALTH - ConstConfigs.BASE_ATTACK_DAMAGE, colonyHashMap.get(0).getBaseHealth());
-        assertEquals(ConstConfigs.BASE_INIT_HEALTH, colonyHashMap.get(1).getBaseHealth());
     }
 
     @Test
     void handleAttacks() {
-        Ant ant1 = new Ant(0, 0, 5, 5, AntType.SOLDIER);
-        Ant ant2 = new Ant(1, 1, 5, 5, AntType.SOLDIER);
+        Ant ant1 = new Ant(0, 0, 5, 5, AntType.SCORPION);
+        Ant ant2 = new Ant(1, 1, 5, 5, AntType.SCORPION);
         try {
             colonyHashMap.get(0).addNewAnt(ant1);
             colonyHashMap.get(1).addNewAnt(ant2);
@@ -95,8 +92,8 @@ class AttackHandlerTest {
 
     @Test
     void getNewDeadAnts() {
-        Ant ant1 = new Ant(0, 0, 5, 5, AntType.SOLDIER);
-        Ant ant2 = new Ant(1, 1, 5, 5, AntType.SOLDIER);
+        Ant ant1 = new Ant(0, 0, 5, 5, AntType.SCORPION);
+        Ant ant2 = new Ant(1, 1, 5, 5, AntType.SCORPION);
         try {
             colonyHashMap.get(0).addNewAnt(ant1);
             colonyHashMap.get(1).addNewAnt(ant2);
@@ -121,8 +118,8 @@ class AttackHandlerTest {
 
     @Test
     void getNearByAttacks() {
-        Ant ant1 = new Ant(0, 0, 1, 1, AntType.SOLDIER);
-        Ant ant2 = new Ant(1, 1, 1, 1, AntType.SOLDIER);
+        Ant ant1 = new Ant(0, 0, 1, 1, AntType.SCORPION);
+        Ant ant2 = new Ant(1, 1, 1, 1, AntType.SCORPION);
         try {
             colonyHashMap.get(0).addNewAnt(ant1);
             colonyHashMap.get(1).addNewAnt(ant2);

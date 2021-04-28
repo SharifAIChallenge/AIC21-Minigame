@@ -19,6 +19,7 @@ import ir.sharif.aichallenge.server.logic.model.Game;
 import ir.sharif.aichallenge.server.logic.model.Colony.Colony;
 import ir.sharif.aichallenge.server.logic.model.Game;
 import ir.sharif.aichallenge.server.logic.model.ant.Ant;
+import ir.sharif.aichallenge.server.logic.model.ant.AntGenerationRequest;
 import ir.sharif.aichallenge.server.logic.model.ant.AntType;
 import ir.sharif.aichallenge.server.logic.model.cell.Cell;
 import ir.sharif.aichallenge.server.logic.model.chatbox.ChatMessage;
@@ -39,7 +40,7 @@ public class GameHandler implements GameLogic {
     private ArrayList<Integer> deads = new ArrayList<>();
     private boolean newAntsCreated = false;
     private List<Integer> newAntIDs = new ArrayList<>();
-    public static int initWorkersNum;
+    public static int initWorkersNum = 0;
     public static int initSoldiersNum;
     public static boolean showGameLog = false;
     // if one colony generated its ants
@@ -85,20 +86,14 @@ public class GameHandler implements GameLogic {
         // read config file
         ConfigReader.readConfigFile();
         // generate map
-        MapGeneratorResult generatedMap = ConstConfigs.READ_MAP_FROM_FILE
-                ? MapGenerator.generateFromFile(Configs.MAP_PATH)
-                : MapGenerator.generateRandomMap();
-        generatedMap = generatedMap == null ? MapGenerator.generateRandomMap() : generatedMap;
+        MapGeneratorResult generatedMap = MapGenerator.generateFromFile(Configs.MAP_PATH);
         // create Game
         AntRepository antRepository = new AntRepository(generatedMap.colonies);
         this.game = new Game(generatedMap.map, antRepository);
         this.game.graphicLogDTO.game_config = new GraphicGameConfigDTO(generatedMap.map);
 
-        game.getColonies().get(0).setToBeGeneratedSoldiersCount(initSoldiersNum);
-        game.getColonies().get(0).setToBeGeneratedWorkersCount(initWorkersNum);
-
-        game.getColonies().get(1).setToBeGeneratedSoldiersCount(initSoldiersNum);
-        game.getColonies().get(1).setToBeGeneratedWorkersCount(initWorkersNum);
+        game.getColonies().get(0).pushSoldierGenerationRequest(GameHandler.initSoldiersNum);
+        game.getColonies().get(1).pushSoldierGenerationRequest(GameHandler.initSoldiersNum);
         thereIsQueuedColony = true;
 
     }
@@ -149,35 +144,18 @@ public class GameHandler implements GameLogic {
         ArrayList<AntInfo> result = new ArrayList<>();
         Colony firstCol = game.getColony(0);
         Colony secondCol = game.getColony(1);
-        int soldiers = firstCol.getToBeGeneratedSoldiersCount();
-        int workers = firstCol.getToBeGeneratedWorkersCount();
-        if (soldiers > 0 || workers > 0) {
-            if (soldiers > 0) {
-                result.add(addNewAnt(firstCol.getBase().getX(), firstCol.getBase().getY(), firstCol.getId(),
-                        AntType.SOLDIER));
-                firstCol.setToBeGeneratedSoldiersCount(soldiers - 1);
-            } else if (workers > 0) {
-                result.add(addNewAnt(firstCol.getBase().getX(), firstCol.getBase().getY(), firstCol.getId(),
-                        AntType.WORKER));
-                firstCol.setToBeGeneratedWorkersCount(workers - 1);
-            }
+        if (firstCol.hasAnyPendingSoldierGenerationRequest()) {
+            AntGenerationRequest ant = firstCol.popSodlierGenerationRequest();
+            result.add(addNewAnt(ant.getxPosition(), ant.getyPosition(), firstCol.getId(),
+                    ant.isQueen() ? AntType.QUEEN : AntType.SCORPION));
         } else {
-            soldiers = secondCol.getToBeGeneratedSoldiersCount();
-            workers = secondCol.getToBeGeneratedWorkersCount();
-            if (soldiers > 0 || workers > 0) {
-                if (soldiers > 0) {
-                    result.add(addNewAnt(secondCol.getBase().getX(), secondCol.getBase().getY(), secondCol.getId(),
-                            AntType.SOLDIER));
-                    secondCol.setToBeGeneratedSoldiersCount(soldiers - 1);
-                } else if (workers > 0) {
-                    result.add(addNewAnt(secondCol.getBase().getX(), secondCol.getBase().getY(), secondCol.getId(),
-                            AntType.WORKER));
-                    secondCol.setToBeGeneratedWorkersCount(workers - 1);
-                }
+            if (secondCol.hasAnyPendingSoldierGenerationRequest()) {
+                AntGenerationRequest ant = secondCol.popSodlierGenerationRequest();
+                result.add(addNewAnt(ant.getxPosition(), ant.getyPosition(), secondCol.getId(),
+                        ant.isQueen() ? AntType.QUEEN : AntType.SCORPION));
             }
         }
-        if (firstCol.getToBeGeneratedSoldiersCount() > 0 || firstCol.getToBeGeneratedWorkersCount() > 0
-                || secondCol.getToBeGeneratedSoldiersCount() > 0 || secondCol.getToBeGeneratedWorkersCount() > 0) {
+        if (firstCol.hasAnyPendingSoldierGenerationRequest() || secondCol.hasAnyPendingSoldierGenerationRequest()) {
             thereIsQueuedColony = true;
         } else {
             thereIsQueuedColony = false;
@@ -214,16 +192,15 @@ public class GameHandler implements GameLogic {
     private void showMap(boolean showChatbox) {
         Log.i("GameHandler", "--------this turn: " + (game.getTurn() - 1) + "--------");
         for (Cell cell : game.getMap().getAllCells()) {
-            Log.i("GameHandler",
-                    "[" + cell.getX() + "," + cell.getY() + "]: " + cell.getCellType().toString() + " "
-                            + cell.getResourceType().toString() + ":" + cell.getResourceAmount() + " --> "
-                            + getAntsIds(cell.getAnts()));
+            Log.i("GameHandler", "[" + cell.getX() + "," + cell.getY() + "]: " + cell.getCellType().toString() + " " + 0
+                    + ":" + 0 + " --> " + getAntsIds(cell.getAnts()));
         }
         Log.i("GameHandler", "\n");
         if (showChatbox) {
             for (Colony colony : game.getColonies()) {
-                Log.i("GameHandler", "chatbox for colony: " + colony.getId() + " with health: " + colony.getBaseHealth()
-                        + " bread:" + colony.getGainedBread() + " grass:" + colony.getGainedGrass());
+                // Log.i("GameHandler", "chatbox for colony: " + colony.getId() + " with health:
+                // " + colony.getBaseHealth()
+                // + " bread:" + colony.getGainedBread() + " grass:" + colony.getGainedGrass());
                 for (ChatMessage message : colony.getChatBox().getChatMessages()) {
                     Log.i("GameHandler", Json.GSON.toJson(message, ChatMessage.class));
                 }
@@ -311,7 +288,11 @@ public class GameHandler implements GameLogic {
             if (Game.quickResult.finished) {
                 winnerID = Game.quickResult.winnerID;
             } else
-                winnerID = game.getGameJudge().getWinner().getId();
+                try {
+                    winnerID = game.getGameJudge().getWinner().getId();
+                } catch (NullPointerException e) {
+                    winnerID = -1;
+                }
             Log.i("Game Finished", "\u001B[32m" + " Winner Colony ID: " + winnerID + " " + "\u001B[0m");
             Log.i("Killer!", "Killing ants... [if not worked, kill them manually :)]");
             AntGenerator.killAnts();

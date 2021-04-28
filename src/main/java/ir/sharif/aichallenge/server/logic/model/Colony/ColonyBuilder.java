@@ -1,16 +1,18 @@
 package ir.sharif.aichallenge.server.logic.model.Colony;
 
-import ir.sharif.aichallenge.server.logic.model.cell.BaseCell;
+import ir.sharif.aichallenge.server.logic.model.cell.Cell;
+
+import java.util.List;
 
 public class ColonyBuilder {
     private Colony colony;
 
-    public ColonyBuilder(int id, int baseCellId) {
-        colony = new Colony(id, baseCellId);
+    public ColonyBuilder(int id) {
+        colony = new Colony(id);
     }
 
-    public ColonyBuilder setBaseCell(BaseCell baseCell, int initialBaseHealth){
-        colony.setBaseCell(baseCell, initialBaseHealth);
+    public ColonyBuilder setBaseCells(List<Cell> baseCells){
+        colony.setBaseCells(baseCells);
         return this;
     }
 

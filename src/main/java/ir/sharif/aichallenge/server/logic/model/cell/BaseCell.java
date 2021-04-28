@@ -9,7 +9,7 @@ public class BaseCell extends Cell {
     private Colony colony;
 
     public BaseCell(int xPosition, int yPosition) {
-        super(xPosition, yPosition, CellType.BASE, ResourceType.NONE, 0);
+        super(xPosition, yPosition, CellType.BASE);
     }
 
     public Colony getColony() {
@@ -18,17 +18,5 @@ public class BaseCell extends Cell {
 
     public void setColony(Colony colony) {
         this.colony = colony;
-    }
-
-    @Override
-    public void manageResources() {
-        List<Ant> workerAnts = getWorkerAnts();
-        for (Ant ant : workerAnts) {
-            if (ant.getColonyId() != colony.getId())
-                continue;
-            colony.addResource(ant.getCarryingResourceType(), ant.getCarryingResourceAmount());
-            ant.setCarryingResourceType(ResourceType.NONE);
-            ant.setCarryingResourceAmount(0);
-        }
     }
 }

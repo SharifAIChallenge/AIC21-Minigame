@@ -8,9 +8,9 @@ public class GraphicGameConfigDTO {
     public int map_height;
     public int map_width;
     public CellTypeDTO[] cells_type;
-    public int base_health;
-    public int worker_health;
-    public int soldier_health;
+    public int base_health = 0;
+    public int queen_health;
+    public int scorpion_health;
     public String team0_name = Configs.FIRST_TEAM_NAME;
     public String team1_name = Configs.SECOND_TEAM_NAME;
     public int winner;
@@ -20,9 +20,8 @@ public class GraphicGameConfigDTO {
     public GraphicGameConfigDTO(GameMap map) {
         this.map_height = map.getYAxisLength();
         this.map_width = map.getXAxisLength();
-        this.base_health = ConstConfigs.BASE_INIT_HEALTH;
-        this.worker_health = ConstConfigs.WORKER_ANT_INITIAL_HEALTH;
-        this.soldier_health = ConstConfigs.SOLDIER_ANT_INITIAL_HEALTH;
+        this.queen_health = ConstConfigs.QUEEN_ANT_INITIAL_HEALTH;
+        this.scorpion_health = ConstConfigs.SOLDIER_ANT_INITIAL_HEALTH;
         this.cells_type = new CellTypeDTO[map.getXAxisLength() * map.getYAxisLength()];
         int index = 0;
         for (int x = 0; x < map.getXAxisLength(); x++) {

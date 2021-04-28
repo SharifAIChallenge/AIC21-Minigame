@@ -1,7 +1,6 @@
 package ir.sharif.aichallenge.server.logic.model.ant;
 
 import ir.sharif.aichallenge.server.logic.config.ConstConfigs;
-import ir.sharif.aichallenge.server.logic.model.cell.ResourceType;
 
 public class Ant {
     private int id;
@@ -12,8 +11,6 @@ public class Ant {
     private int xPosition;
     private int yPosition;
     // just used for worker ant
-    private ResourceType carryingResourceType;
-    private int carryingResourceAmount;
 
     public Ant(int id, int colonyId, int xPosition, int yPosition, AntType antType) {
         this.id = id;
@@ -22,26 +19,11 @@ public class Ant {
         this.yPosition = yPosition;
         this.antType = antType;
         setInitialHealth(antType);
-        setInitialResourceSettings();
-    }
-
-    private void setInitialResourceSettings() {
-        carryingResourceType = ResourceType.NONE;
-        this.carryingResourceAmount = 0;
     }
 
     private void setInitialHealth(AntType antType) {
-        health = antType == AntType.WORKER ?
-                ConstConfigs.WORKER_ANT_INITIAL_HEALTH :
-                ConstConfigs.SOLDIER_ANT_INITIAL_HEALTH;
-    }
-
-    public int getCarryingResourceAmount() {
-        return carryingResourceAmount;
-    }
-
-    public void setCarryingResourceAmount(int carryingResourceAmount) {
-        this.carryingResourceAmount = carryingResourceAmount;
+        health = antType == AntType.QUEEN ? ConstConfigs.QUEEN_ANT_INITIAL_HEALTH
+                : ConstConfigs.SOLDIER_ANT_INITIAL_HEALTH;
     }
 
     public void moveTo(int newX, int newY) {
@@ -80,17 +62,4 @@ public class Ant {
     public AntType getAntType() {
         return antType;
     }
-
-    public ResourceType getCarryingResourceType() {
-        if (antType == AntType.SOLDIER)
-            return ResourceType.NONE;
-        return carryingResourceType;
-    }
-
-    public void setCarryingResourceType(ResourceType carryingResourceType) {
-        this.carryingResourceType = carryingResourceType;
-    }
 }
-
-
-

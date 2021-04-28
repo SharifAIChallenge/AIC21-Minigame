@@ -329,7 +329,7 @@ public class ClientNetwork extends NetServer {
                  * for (int clientID : ids) { if (deadIDs.contains(clientID)) continue;
                  * ClientHandler clientHandler = mClients.get(clientID); if
                  * (!clientHandler.isConnected() && !deadIDs.contains(clientID)) { try {
-                 * AntGenerator.waitingProcessIDs.remove(clientID); } catch (Exception ignore) {
+                 * SoldierGenerator.waitingProcessIDs.remove(clientID); } catch (Exception ignore) {
                  * } clientHandler.bind(client); Runnable receiver =
                  * clientHandler.getReceiver(() -> receiveTimeFlag);
                  * receiveExecutor.submit(receiver); return; } }

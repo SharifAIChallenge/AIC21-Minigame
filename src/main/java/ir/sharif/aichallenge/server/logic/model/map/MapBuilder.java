@@ -5,10 +5,8 @@ import ir.sharif.aichallenge.server.logic.model.Colony.ColonyBuilder;
 import ir.sharif.aichallenge.server.logic.model.cell.BaseCell;
 import ir.sharif.aichallenge.server.logic.model.cell.Cell;
 import ir.sharif.aichallenge.server.logic.model.cell.CellType;
-import ir.sharif.aichallenge.server.logic.model.cell.ResourceType;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class MapBuilder {
@@ -47,13 +45,13 @@ public class MapBuilder {
                 Cell newCell;
 
                 if (cellTypeSelector < breadCellProb)
-                    newCell = new Cell(j, i, CellType.EMPTY, ResourceType.BREAD, 1);
+                    newCell = new Cell(j, i, CellType.EMPTY);
                 else if (cellTypeSelector < breadCellProb + grassCellProb)
-                    newCell = new Cell(j, i, CellType.EMPTY, ResourceType.GRASS, 1);
+                    newCell = new Cell(j, i, CellType.EMPTY);
                 else if (cellTypeSelector < breadCellProb + grassCellProb + wallCellProb)
-                    newCell = new Cell(j, i, CellType.WALL, ResourceType.NONE, 0);
+                    newCell = new Cell(j, i, CellType.WALL);
                 else
-                    newCell = new Cell(j, i, CellType.EMPTY, ResourceType.NONE, 0);
+                    newCell = new Cell(j, i, CellType.EMPTY);
 
                 cells[i][j] = newCell;
             }
@@ -88,7 +86,6 @@ public class MapBuilder {
 
         BaseCell baseCell = new BaseCell(x, y);
         gameMap.setCell(x, y, baseCell);
-        colonyBuilder.setBaseCell(baseCell, colonyInitialBaseHealth);
         baseCell.setColony(colonyBuilder.getColony());
         return this;
     }
