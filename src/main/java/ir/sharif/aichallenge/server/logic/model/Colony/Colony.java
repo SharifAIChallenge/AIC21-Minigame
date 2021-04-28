@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public class Colony {
     private static Integer colonyUUID = 1000;
@@ -109,5 +110,10 @@ public class Colony {
 
     public Ant getQueen() {
         return queen;
+    }
+
+    public Cell getRandomBase() {
+        Random random = new Random();
+        return bases.get(random.nextInt(bases.size()));
     }
 }

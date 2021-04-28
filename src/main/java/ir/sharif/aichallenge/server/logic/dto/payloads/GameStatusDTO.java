@@ -23,8 +23,8 @@ public class GameStatusDTO {
         if (currentAnt != null) {
             this.current_x = currentAnt.getXPosition();
             this.current_y = currentAnt.getYPosition();
-            this.current_resource_value = currentAnt.getCarryingResourceAmount();
-            this.current_resource_type = currentAnt.getCarryingResourceType().getValue();
+            this.current_resource_value = 0;
+            this.current_resource_type = 0;
             this.health = currentAnt.getHealth();
             this.around_cells = Arrays.stream(game.getMap().getAntViewableCells(current_x, current_y))
                     .map(x -> new AroundCell(x, currentAnt)).toArray(AroundCell[]::new);
@@ -44,9 +44,9 @@ public class GameStatusDTO {
     }
 
     private boolean isAttackerEnemy(Game game, Ant ant, AttackSummary x) {
-        if (x.attacker_id < 0) {
+        /* if (x.attacker_id < 0) {
             return x.attacker_id != game.getColony(ant.getColonyId()).getBaseAttackerId();
-        }
+        } */
         return game.getAntRepository().getAliveOrDeadAnt(x.attacker_id).getColonyId() != ant.getColonyId();
     }
 }
