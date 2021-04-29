@@ -90,7 +90,8 @@ public class GameHandler implements GameLogic {
         // create Game
         AntRepository antRepository = new AntRepository(generatedMap.colonies);
         this.game = new Game(generatedMap.map, antRepository);
-        this.game.graphicLogDTO.game_config = new GraphicGameConfigDTO(generatedMap.map);
+        this.game.graphicLogDTO.game_config = new GraphicGameConfigDTO(generatedMap.map,
+                game.getColonies().get(0).getBaseCells(), game.getColonies().get(1).getBaseCells());
 
         game.getColonies().get(0).pushSoldierGenerationRequest(GameHandler.initSoldiersNum);
         game.getColonies().get(1).pushSoldierGenerationRequest(GameHandler.initSoldiersNum);
